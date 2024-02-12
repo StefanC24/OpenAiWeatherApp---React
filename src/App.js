@@ -58,27 +58,32 @@ function App() {
               console.error('Error fetching weather data:', response.status);
             }
           } catch (error) {
+            if(weatherDescription === "broken clouds" || weatherDescription === "mist" ){
+              const appDiv = document.querySelector('.App');
+              appDiv.classList.remove('App')
+              appDiv.classList.add('custom_background')
+              console.log("mist/fog")
+            }
+            else{
+              const appDiv = document.querySelector('.custom_background');
+              appDiv.classList.remove('custom_background')
+              appDiv.classList.add('App')
+              console.log("not mist/fog")
+            }
             console.error('An error occurred while fetching weather data:', error);
           }
         }
 
-    useEffect(()=>{
-      if(weatherDescription === "fog" || weatherDescription === "mist" ){
-        var appDiv = document.getElementById('app');
-        appDiv.classList.add('custom_background')
-        console.log("mist/fog")
-      }
-      else{
-        const appDiv = document.getElementById('app');
-        appDiv.classList.add('App')
-        console.log("not mist/fog")
-      }},[weatherDescription])
+    // useEffect(()=>{
+    //   }},[weatherDescription])
 
     return (
     <div className="App" id='app'>
-      <div>
-        <input type='text' value={input} autoComplete='off' placeholder='Enter a city' onChange={handleInput}></input>
-        <button type='submit' onClick={getWeather}>Search</button>
+      <div className='input_and_buttons'>
+        <div className='input_and_search'>
+          <input className='input_field' type='text' value={input} autoComplete='off' placeholder='Enter a city' onChange={handleInput}></input>
+          <button className='search_button' type='submit' onClick={getWeather}>Search</button>
+        </div>
         <button onClick={clearData}>Clear</button>
       </div>
       <div>
